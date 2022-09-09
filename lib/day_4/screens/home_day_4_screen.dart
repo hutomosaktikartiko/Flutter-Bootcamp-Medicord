@@ -14,6 +14,7 @@ class _HomeDay4ScreenState extends State<HomeDay4Screen> {
   final _scrollController = ScrollController();
 
   bool isShowLoading = false;
+  bool isMax = false;
   int page = 1;
 
   @override
@@ -47,14 +48,16 @@ class _HomeDay4ScreenState extends State<HomeDay4Screen> {
                       )
                       .values
                       .toList(),
-                  (isShowLoading)
-                      ? const SizedBox(
-                          height: 80,
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
-                      : const SizedBox.shrink(),
+                  (isMax)
+                      ? const SizedBox.shrink()
+                      : (isShowLoading)
+                          ? const SizedBox(
+                              height: 80,
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                 ]),
               );
             } else if (state is ListPostDay4Empty) {
@@ -81,7 +84,7 @@ class _HomeDay4ScreenState extends State<HomeDay4Screen> {
   }) {
     // Check Scroll Position
     if (scrollNotification is ScrollEndNotification &&
-        _scrollController.position.extentAfter == 0) {
+        _scrollController.position.extentAfter == 0 && isMax == false) {
       // Set More Loading = true
       setState(() {
         isShowLoading = true;
@@ -98,6 +101,9 @@ class _HomeDay4ScreenState extends State<HomeDay4Screen> {
           .then(
         (value) {
           // Set More Loading = false
+          if (value.isEmpty) {
+            isMax = true;
+          }
           setState(() {
             isShowLoading = true;
           });

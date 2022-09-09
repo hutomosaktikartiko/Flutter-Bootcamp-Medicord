@@ -36,7 +36,7 @@ class ListPostDay4Cubit extends Cubit<ListPostDay4State> {
     }
   }
 
-  Future<void> loadMorePosts({
+  Future<List<PostDay4Model>> loadMorePosts({
     required int page,
     required int limit,
   }) async {
@@ -54,5 +54,7 @@ class ListPostDay4Cubit extends Cubit<ListPostDay4State> {
       final List<PostDay4Model> lastPostsData = (state as ListPostDay4Loaded).posts;
       emit(ListPostDay4Loaded(posts: lastPostsData + result));
     }
+
+    return result;
   }
 }
