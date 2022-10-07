@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_medium/day_3/cubit/list_posts_cubit.dart';
-import 'package:flutter_medium/day_4/cubit/list_post_day4_cubit.dart';
+import 'package:flutter_medium/features/news/presentation/cubit/news_cubit.dart';
+import 'features/news/presentation/pages/news/news_page.dart';
+import 'service_locator.dart' as sl;
 
-import 'day_3/screens/home_day_3_screen.dart';
-import 'day_4/screens/home_day_4_screen.dart';
+Future<void> main() async {
+  await sl.init();
 
-void main() {
   runApp(const MyApp());
 }
 
@@ -18,15 +18,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => ListPostsCubit(),
-        ),
-        BlocProvider(
-          create: (context) => ListPostDay4Cubit(),
+          create: (context) => sl.serviceLocator<NewsCubit>(),
         ),
       ],
-      child: const MaterialApp(
-        home: HomeDay4Screen(),
-      ),
+      child: const MaterialApp(home: NewsPage()),
     );
   }
 }
